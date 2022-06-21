@@ -1,30 +1,30 @@
 const dbConfig = require("../models/dbConfig")
 
 async function dbConnect(){
-    return await dbConfig.bancoDeDados("filmes")
+    return await dbConfig.bancoDeDados("series")
     
 }
 
 const getAll = async(request, response) => {
-    const filmesJson = await dbConnect()
+    const seriesJson = await dbConnect()
   
-    response.status(200).send((filmesJson))
+    response.status(200).send((seriesJson))
 }
 
 const getById = async(request, response) => {
-  const filmesJson = await dbConnect()
+  const seriesJson = await dbConnect()
   let idRequest = request.params.id
-  let filmeEncontrado = filmesJson.find(filme => filme.id == idRequest)
+  let serieEncontrada = seriesJson.find(serie => serie.id == idRequest)
 
-  response.status(200).send(filmeEncontrado)
+  response.status(200).send(serieEncontrada)
 }
 
-const createMovie = async(request, response) => {
-  let filmesJson = await dbConnect()
+const createSerie = async(request, response) => {
+  let seriesJson = await dbConnect()
   let bodyRequest = request.body
 
-    let novoFilme = {
-        id: (filmesJson.length)+1,
+    let novaSerie = {
+        id: (seriesJson.length)+1,
         Title: bodyRequest.title,
         Year: bodyRequest.Year,
         Rated: bodyRequest.Rated,
@@ -39,11 +39,11 @@ const createMovie = async(request, response) => {
         Country: bodyRequest.Country,
         Awards: bodyRequest.Awards
     }
-    filmesJson.push(novoFilme)
+    seriesJson.push(novaSerie)
     
     response.status(201).send({
-        "mensagem": "filmes cadastrado com sucesso",
-        novoFilme
+        "mensagem": "Série cadastrada com sucesso",
+        novaSerie
     })
 }
 
@@ -51,5 +51,5 @@ const createMovie = async(request, response) => {
 module.exports ={
   getAll,
   getById,
-  createMovie
+  createSerie
 }
